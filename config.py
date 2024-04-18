@@ -16,6 +16,7 @@ PORT= os.environ.get("PORT", "8080")
 API_ID = int(os.environ.get("API_ID", "")) #API ID from https://my.telegram.org/auth
 API_HASH = os.environ.get("API_HASH", "") #API Hash from https://my.telegram.org/auth
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "") # Bot token from @BotFather
+BOT_USERNAME = os.environ.get("BOT_USERNAME","")
 ADMINS = [int(i.strip()) for i in os.environ.get("ADMINS").split(",")] if os.environ.get("ADMINS") else [] #Keep thia empty otherwise bot will not work for owner.
 ADMIN = ADMINS
 DATABASE_NAME = os.environ.get("DATABASE_NAME", "Greylinks")
