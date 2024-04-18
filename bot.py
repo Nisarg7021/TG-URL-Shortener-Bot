@@ -3,7 +3,7 @@ import logging
 from pyrogram import Client
 from plugins import web_server
 from config import BOT_TOKEN, API_ID, API_HASH, OWNER_ID, PORT
-from database import db, filter_users
+from database import *
 from helpers import temp
 from pyrogram import *
 from pyrogram.errors.exceptions.not_acceptable_406 import *
