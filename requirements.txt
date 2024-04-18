@@ -8,7 +8,7 @@ pyshorteners
 aiofiles
 python-dotenv
 shortener
-pyshortner
+pyshorteners
 heroku3
 validators
 python-dotenv
