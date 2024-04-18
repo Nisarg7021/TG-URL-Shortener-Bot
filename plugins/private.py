@@ -8,7 +8,7 @@ from bot import *
 from pyrogram.errors.exceptions.bad_request_400 import *
 import shortener
 from shortener import *
-from pyshortner import *
+from pyshorteners import *
 logger = logging.getLogger(__name__)
 
 channel = UPDATE_CHANNEL
@@ -66,16 +66,4 @@ From User :- {message.from_user.mention} [`{message.from_user.id}`]"""
             
     except Exception as e:
         logging.exception(e, exc_info=True)
-"""
-   _____                    __  __         _    _              _       _______           _     
-  / ____|                  |  \/  |       | |  | |            ( )     |__   __|         | |    
- | |  __  _ __  ___  _   _ | \  / |  __ _ | |_ | |_  ___  _ __|/ ___     | |  ___   ___ | |__  
- | | |_ || '__|/ _ \| | | || |\/| | / _` || __|| __|/ _ \| '__| / __|    | | / _ \ / __|| '_ \ 
- | |__| || |  |  __/| |_| || |  | || (_| || |_ | |_|  __/| |    \__ \    | ||  __/| (__ | | | |
-  \_____||_|   \___| \__, ||_|  |_| \__,_| \__| \__|\___||_|    |___/    |_| \___| \___||_| |_|
-                      __/ |                                                                    
-                     |___/                                                                     
-Author: GreyMatter's Tech
-GitHub: https://GreyMattersTech.com/GitHub
-Website: https://GreyMattersTech.com
-"""
+
