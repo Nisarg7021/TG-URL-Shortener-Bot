@@ -11,32 +11,30 @@ from database.users import *
 from aiohttps import *
 from helpers import *
 from pyshortner import *
-logging.config.fileConfig('logging.conf')
-logging.getLogger().setLevel(logging.INFO)
+
 import os
 import pyrogram
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
+
 import logging
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+logging.config.fileConfig('logging.conf')
+logging.getLogger().setLevel(logging.INFO)
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 
+class Bot(Client):
+    def __init__(self):
+        super().__init__(
+            "Mdisk-Pro",
+            bot_token=BOT_TOKEN,
+            api_id=API_ID,
+            api_hash=API_HASH,
+            plugins=dict(root="plugins")
+        )
 
-if __name__ == "__main__" :
-
-    plugins = dict(
-        root="plugins"
-    )
-    GreyMattersTech = Client(
-        "Mdisk-Pro",
-        bot_token=BOT_TOKEN,
-        api_id=API_ID,
-        api_hash=API_HASH,
-        plugins=plugins
-    )
-    
     async def start(self):
+        await super().start()
         me = await self.get_me()
         self.owner = await self.get_users(int(OWNER_ID))
         self.username = f'@{me.username}'
@@ -48,47 +46,19 @@ if __name__ == "__main__" :
         async for user in banned_users:
             temp.BANNED_USERS.append(user["user_id"])
         logging.info(LOG_STR)
-        await broadcast_admins(self, '** Bot started successfully **\n\nBot By @GreyMattersTech')
+        await self.broadcast_admins('** Bot started successfully **\n\nBot By @GreyMattersTech')
         logging.info('Bot started')
-
-
-    GreyMattersTech.run()
-
-# Removed Upper All Codes Because This is Not Required Now. 
-
-#SESSION = "GreyMattersTech"
-
-#class Bot(Client):
-
-    #def __init__(self):
-        #super().__init__(
-           # name=SESSION,
-            #api_id=API_ID,
-           # api_hash=API_HASH,
-           # bot_token=BOT_TOKEN,
-            #workers=50,
-           # plugins={"root": "plugins"},
-            #sleep_threshold=5,
-        #)
-
-
 
     async def stop(self, *args):
         await super().stop()
         logging.info("Bot stopped. Bye.")
 
-#GreyMattersTech = Bot()
-#GreyMattersTech.run()
-"""
-   _____                    __  __         _    _              _       _______           _     
-  / ____|                  |  \/  |       | |  | |            ( )     |__   __|         | |    
- | |  __  _ __  ___  _   _ | \  / |  __ _ | |_ | |_  ___  _ __|/ ___     | |  ___   ___ | |__  
- | | |_ || '__|/ _ \| | | || |\/| | / _` || __|| __|/ _ \| '__| / __|    | | / _ \ / __|| '_ \ 
- | |__| || |  |  __/| |_| || |  | || (_| || |_ | |_|  __/| |    \__ \    | ||  __/| (__ | | | |
-  \_____||_|   \___| \__, ||_|  |_| \__,_| \__| \__|\___||_|    |___/    |_| \___| \___||_| |_|
-                      __/ |                                                                    
-                     |___/                                                                     
-Author: GreyMatter's Tech
-GitHub: https://GreyMattersTech.com/GitHub
-Website: https://GreyMattersTech.com
-"""
+
+async def main():
+    app = Bot()
+    await app.start()
+    await app.idle()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
