@@ -45,16 +45,17 @@ class Helpers:
         async for i in AsyncIter(ADMINS):
             x+= f"~ `{i}`\n"
         return x
-"""
-   _____                    __  __         _    _              _       _______           _     
-  / ____|                  |  \/  |       | |  | |            ( )     |__   __|         | |    
- | |  __  _ __  ___  _   _ | \  / |  __ _ | |_ | |_  ___  _ __|/ ___     | |  ___   ___ | |__  
- | | |_ || '__|/ _ \| | | || |\/| | / _` || __|| __|/ _ \| '__| / __|    | | / _ \ / __|| '_ \ 
- | |__| || |  |  __/| |_| || |  | || (_| || |_ | |_|  __/| |    \__ \    | ||  __/| (__ | | | |
-  \_____||_|   \___| \__, ||_|  |_| \__,_| \__| \__|\___||_|    |___/    |_| \___| \___||_| |_|
-                      __/ |                                                                    
-                     |___/                                                                     
-Author: GreyMatter's Tech
-GitHub: https://GreyMattersTech.com/GitHub
-Website: https://GreyMattersTech.com
-"""
+
+async def ping_server():
+    sleep_time = PING_INTERVAL
+    while True:
+        await asyncio.sleep(sleep_time)
+        try:
+            async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=10)) as session:
+                async with session.get(REPLIT) as resp:
+                    logging.info(f"Pinged server with response: {resp.status}")
+        except TimeoutError:
+            logging.warning("Couldn't connect to the site URL..!")
+        except Exception:
+            traceback.print_exc()
+
