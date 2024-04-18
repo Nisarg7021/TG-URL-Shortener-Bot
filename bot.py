@@ -4,6 +4,8 @@ from plugins import web_server
 import asyncio
 import datetime
 import logging
+import logging.config
+import sys
 
 from pyrogram import Client
 
@@ -13,6 +15,7 @@ from helpers import temp
 from pyrogram import *
 from pyrogram.errors.exceptions.not_acceptable_406 import *
 from database.users import *
+from database.users import filter_users
 from aiohttp import *
 from helpers import *
 from pyshorteners import *
