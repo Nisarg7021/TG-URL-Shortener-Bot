@@ -31,4 +31,9 @@ WELCOME_IMAGE = os.environ.get("WELCOME_IMAGE", 'https://telegra.ph/file/19eeb26
 LINK_BYPASS = "True" 
 IS_PRIVATE = is_enabled(os.environ.get("IS_PRIVATE", 'False'), 'False')
 
+#  Heroku Config for Dynos stats
+HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None) # your heroku account api from https://dashboard.heroku.com/account/applications
+HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None) # your heroku app name
+HEROKU = bool(HEROKU_API_KEY and HEROKU_APP_NAME)
+
 LOG_STR = "\nHeroku is {0}\n".format("Enabled" if HEROKU else "Disabled") + "Users {0} use this bot".format("cannot" if IS_PRIVATE else "can")
