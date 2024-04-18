@@ -39,15 +39,17 @@ class Bot(Client):
             plugins=dict(root="plugins")
         )
 
-          if UPDATE_CHANNEL:
+
+    async def start(self):
+        await super().start()
+        if UPDATE_CHANNEL:
             try:
                 self.invite_link = await self.create_chat_invite_link(UPDATE_CHANNEL)
             except Exception:
                 logging.error(f"Make sure to make the bot in your update channel {UPDATE_CHANNEL}")
                 sys.exit(1)
-
-    async def start(self):
-        await super().start()
+  
+        
         me = await self.get_me()
         self.owner = await self.get_users(int(OWNER_ID))
         self.username = f'@{me.username}'
