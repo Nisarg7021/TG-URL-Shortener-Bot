@@ -1,6 +1,6 @@
 aiohttp
 pymongo[srv]==3.12.3
-motor==2.5.1
+motor
 git+https://github.com/MrMKN/pyrogram
 TgCrypto==1.2.3
 bs4
