@@ -27,6 +27,9 @@ logging.basicConfig(level=logging.DEBUG,
 logger = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
+async def broadcast_admins(self, message):
+    for admin_id in ADMINS:
+        await self.send_message(admin_id, message)
 
 
 class Bot(Client):
