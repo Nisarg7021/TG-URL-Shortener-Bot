@@ -12,19 +12,15 @@ from pyshorteners import *
 
 logger = logging.getLogger(__name__)
 
-channel = UPDATE_CHANNEL
 
-ft = f"Due To Overload Only Channel Subscribers can Use the Bot Join - @codercreation"
+
 
 
 # Private Chat
-@Client.on_message(filters.private)
+@Client.on_message(filters.private & filters.incoming)
+@private_use
 async def private_link_handler(c: Client, message: Message):
-
-    try:
-        Fsub = await force_subs(c, message, channel, ft)
-        if Fsub == True:
-            return
+    try:  
         user = await get_user(message.from_user.id)
         ban = user["banned"]
         if ban is not False:
