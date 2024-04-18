@@ -15,6 +15,34 @@ channel = UPDATE_CHANNEL
 
 ft = f"Due To Overload Only Channel Subscribers can Use the Bot Join - @GreyMattersTech"
 
+async def force_subs(client, message, channel, ft):
+    owner = client.owner
+    if channel:
+        invite_link = client.invite_link
+        try:
+            user = await client.get_chat_member(channel, message.from_user.id)
+            if user.status == "kicked":
+                await message.reply_text("**Hey you are banned 😜**", quote=True)
+                return
+        except UserNotParticipant:
+            buttons = [
+                [InlineKeyboardButton(text='Updates Channel 🔖', url=invite_link.invite_link)],
+                [InlineKeyboardButton('🔄 Refresh', callback_data='sub_refresh')]
+            ]
+            await message.reply_text(
+                f"Hey {message.from_user.mention(style='md')}, you need to join my updates channel in order to use me 😉\n\n"
+                "__Press the following button to join now 👇__",
+                reply_markup=InlineKeyboardMarkup(buttons),
+                quote=True
+            )
+            return
+        except Exception as e:
+            print(e)
+            await message.reply_text(f"Something went wrong. Please try again later or contact {owner.mention(style='md')}", quote=True)
+            return
+    await message.continue_propagation()
+
+
 
 # Private Chat
 @Client.on_message(filters.private)
