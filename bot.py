@@ -1,12 +1,10 @@
-import aiohttp
-from aiohttp import web
-from plugins import web_server
-
 import asyncio
-import datetime
 import logging
-import logging.config
-import sys
+from pyrogram import Client
+from plugins import web_server
+from config import BOT_TOKEN, API_ID, API_HASH, OWNER_ID, PORT
+from database import db, filter_users
+from helpers import temp
 from pyrogram import *
 from pyrogram.errors.exceptions.not_acceptable_406 import *
 from config import *
@@ -15,47 +13,24 @@ from database.users import *
 from aiohttp import *
 from helpers import *
 from pyshorteners import *
-logging.config.fileConfig('logging.conf')
-logging.getLogger().setLevel(logging.INFO)
-import os
-import pyrogram
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
-import logging
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 
-
-if __name__ == "__main__" :
-
-    plugins = dict(
-        root="plugins"
-    )
-    GreyMattersTech = Client(
-        "Mdisk-Pro",
-        bot_token=BOT_TOKEN,
-        api_id=API_ID,
-        workers=50,
-        api_hash=API_HASH,
-        plugins=plugins,
-        sleep_threshold=5,
-    )
-
-
 class Bot(Client):
-
     def __init__(self):
         super().__init__(
-        "shortener",
-        api_id=API_ID,
-        api_hash=API_HASH,
-        bot_token=BOT_TOKEN,
-        sleep_threshold=5,
-        plugins=dict(root="plugins")
+            "shortener",
+            api_id=API_ID,
+            api_hash=API_HASH,
+            bot_token=BOT_TOKEN,
+            sleep_threshold=5,
+            plugins=dict(root="plugins")
         )
-  
+
     async def start(self):
+        await super().start()
         me = await self.get_me()
         self.owner = await self.get_users(int(OWNER_ID))
         self.username = f'@{me.username}'
@@ -71,35 +46,20 @@ class Bot(Client):
         async for user in banned_users:
             temp.BANNED_USERS.append(user["user_id"])
         logging.info(LOG_STR)
-        await broadcast_admins(self, '** Bot started successfully **\n\nBot By @GreyMattersTech')
+        await self.broadcast_admins('** Bot started successfully **\n\nBot By @GreyMattersTech')
         logging.info('Bot started')
-
-
-    GreyMattersTech.run()
-
-# Removed Upper All Codes Because This is Not Required Now. 
-
-#SESSION = "GreyMattersTech"
-
-#class Bot(Client):
-
-    #def __init__(self):
-        #super().__init__(
-           # name=SESSION,
-            #api_id=API_ID,
-           # api_hash=API_HASH,
-           # bot_token=BOT_TOKEN,
-            #workers=50,
-           # plugins={"root": "plugins"},
-            #sleep_threshold=5,
-        #)
-
-
 
     async def stop(self, *args):
         await super().stop()
         logging.info("Bot stopped. Bye.")
 
-app = Bot()
-app.run()
+
+async def main():
+    app = Bot()
+    await app.start()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
 
