@@ -23,7 +23,7 @@ from pyshorteners import *
 logging.config.fileConfig('logging.conf')
 logging.getLogger().setLevel(logging.INFO)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
-logger = logging.getLogger(__name__)
+
 
 
 class Bot(Client):
