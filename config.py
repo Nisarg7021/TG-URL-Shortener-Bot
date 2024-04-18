@@ -23,6 +23,7 @@ DATABASE_NAME = os.environ.get("DATABASE_NAME", "Greylinks")
 DATABASE_URL = os.environ.get("DATABASE_URL", "") # mongodb uri from https://www.mongodb.com/
 OWNER_ID =  int(os.environ.get("OWNER_ID", "")) # id of the owner
 ADMINS.append(OWNER_ID) if OWNER_ID not in ADMINS else []
+Fsub = os.environ.get('Fsub', "False")
 #  Optionnal variables
 LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "")) # log channel for information about users
 UPDATE_CHANNEL = os.environ.get("UPDATE_CHANNEL", "GreyMattersTech") # For Force Subscription
