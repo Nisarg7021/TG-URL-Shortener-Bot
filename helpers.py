@@ -6,15 +6,18 @@ import traceback
 import aiohttp
 
 import database
-from config import ADMINS
+from config import ADMINS, BOT_USERNAME
 
 
 class temp(object): # TrojanZ Idea of Temping
-    BOT_USERNAME = None
+    BOT_USERNAME = BOT_USERNAME
     CANCEL = False
     FIRST_NAME = None
     START_TIME = None
     BANNED_USERS = []
+
+temp.BOT_USERNAME = BOT_USERNAME
+
 
 class AsyncIter:    
     def __init__(self, items):    
