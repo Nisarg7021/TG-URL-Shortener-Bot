@@ -14,9 +14,9 @@ from aiohttp import *
 from helpers import *
 from pyshorteners import *
 
+# Set up logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
 
 class Bot(Client):
     def __init__(self):
@@ -28,6 +28,8 @@ class Bot(Client):
             sleep_threshold=5,
             plugins=dict(root="plugins")
         )
+        # Initialize web AppRunner
+        self.app_runner = web.AppRunner(web_server())
 
     async def start(self):
         await super().start()
@@ -36,30 +38,32 @@ class Bot(Client):
         self.username = f'@{me.username}'
         temp.BOT_USERNAME = me.username
         temp.FIRST_NAME = me.first_name
-        app = web.AppRunner(await web_server())
-        await app.setup()
+
+        # Setup web application
+        await self.app_runner.setup()
         bind_address = "0.0.0.0"
-        await web.TCPSite(app, bind_address, PORT).start()
+        await web.TCPSite(self.app_runner, bind_address, PORT).start()
+
+        # Initialize bot stats
         if not await db.get_bot_stats():
             await db.create_stats()
+
+        # Populate banned users
         banned_users = await filter_users({"banned": True})
         async for user in banned_users:
             temp.BANNED_USERS.append(user["user_id"])
-        logging.info(LOG_STR)
-        await self.broadcast_admins('** Bot started successfully **\n\nBot By @GreyMattersTech')
+
+        # Log start message
         logging.info('Bot started')
 
     async def stop(self, *args):
         await super().stop()
+        await self.app_runner.cleanup()  # Clean up web application resources
         logging.info("Bot stopped. Bye.")
-
 
 async def main():
     app = Bot()
     await app.start()
 
-
 if __name__ == "__main__":
     asyncio.run(main())
-
-
