@@ -1,4 +1,5 @@
-from aiohttp import web
+import aiohttps
+from aiohttps import web
 from plugins import web_server
 
 import asyncio
