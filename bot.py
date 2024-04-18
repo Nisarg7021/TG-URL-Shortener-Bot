@@ -32,8 +32,10 @@ if __name__ == "__main__" :
         "Mdisk-Pro",
         bot_token=BOT_TOKEN,
         api_id=API_ID,
+        workers=50,
         api_hash=API_HASH,
-        plugins=plugins
+        plugins=plugins,
+        sleep_threshold=5,
     )
     
     async def start(self):
@@ -42,6 +44,10 @@ if __name__ == "__main__" :
         self.username = f'@{me.username}'
         temp.BOT_USERNAME = me.username
         temp.FIRST_NAME = me.first_name
+        app = web.AppRunner(await web_server())
+        await app.setup()
+        bind_address = "0.0.0.0"
+        await web.TCPSite(app, bind_address, PORT).start()
         if not await db.get_bot_stats():
             await db.create_stats()
         banned_users = await filter_users({"banned": True})
@@ -76,6 +82,9 @@ if __name__ == "__main__" :
     async def stop(self, *args):
         await super().stop()
         logging.info("Bot stopped. Bye.")
+
+app = Bot()
+app.run()
 
 #GreyMattersTech = Bot()
 #GreyMattersTech.run()
