@@ -9,4 +9,4 @@ fi
 cd /TG-URL-Shortener-Bot
 pip3 install -U -r requirements.txt
 echo "Starting Bot...."
-python3 -m bot
+python3 -m main
