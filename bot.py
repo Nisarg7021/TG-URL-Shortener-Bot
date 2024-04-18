@@ -17,18 +17,19 @@ from aiohttp import *
 from helpers import *
 from pyshorteners import *
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.config.fileConfig('logging.conf')
+logging.getLogger().setLevel(logging.INFO)
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 
 class Bot(Client):
     def __init__(self):
         super().__init__(
-            "shortener",
+            "Mdisk-Pro",
+            bot_token=BOT_TOKEN,
             api_id=API_ID,
             api_hash=API_HASH,
-            bot_token=BOT_TOKEN,
-            sleep_threshold=5,
             plugins=dict(root="plugins")
         )
 
@@ -39,10 +40,6 @@ class Bot(Client):
         self.username = f'@{me.username}'
         temp.BOT_USERNAME = me.username
         temp.FIRST_NAME = me.first_name
-        app = web.AppRunner(await web_server())
-        await app.setup()
-        bind_address = "0.0.0.0"
-        await web.TCPSite(app, bind_address, PORT).start()
         if not await db.get_bot_stats():
             await db.create_stats()
         banned_users = await filter_users({"banned": True})
@@ -60,6 +57,7 @@ class Bot(Client):
 async def main():
     app = Bot()
     await app.start()
+    await app.idle()
 
 
 if __name__ == "__main__":
