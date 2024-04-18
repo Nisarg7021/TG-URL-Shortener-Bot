@@ -13,3 +13,6 @@ errorsolvers
 domainers 
 shortener
 pyshortner
+heroku3
+validators
+python-dotenv
