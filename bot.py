@@ -22,14 +22,14 @@ from pyshorteners import *
 
 logging.config.fileConfig('logging.conf')
 logging.getLogger().setLevel(logging.INFO)
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
+
 
 
 
 class Bot(Client):
     def __init__(self):
         super().__init__(
-            "Mdisk-Pro",
+            "shortener",
             bot_token=BOT_TOKEN,
             api_id=API_ID,
             api_hash=API_HASH,
@@ -59,13 +59,3 @@ class Bot(Client):
     async def stop(self, *args):
         await super().stop()
         logging.info("Bot stopped. Bye.")
-
-
-async def main():
-    app = Bot()
-    await app.start()
-    await app.idle()
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
