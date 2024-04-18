@@ -21,4 +21,4 @@ UPDATE_CHANNEL = os.environ.get("UPDATE_CHANNEL", "GreyMattersTech") # For Force
 BROADCAST_AS_COPY = os.environ.get('BROADCAST_AS_COPY', "False") # true if forward should be avoided
 WELCOME_IMAGE = os.environ.get("WELCOME_IMAGE", 'https://telegra.ph/file/19eeb26fa2ce58765917a.jpg') # image when someone hit /start
 LINK_BYPASS = "True" 
-
+IS_PRIVATE = is_enabled(os.environ.get("IS_PRIVATE", 'False'), 'False')
