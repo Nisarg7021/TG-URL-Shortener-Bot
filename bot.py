@@ -1,5 +1,5 @@
-import aiohttps
-from aiohttps import web
+import aiohttp
+from aiohttp import web
 from plugins import web_server
 
 import asyncio
@@ -12,9 +12,9 @@ from pyrogram.errors.exceptions.not_acceptable_406 import *
 from config import *
 from database import *
 from database.users import *
-from aiohttps import *
+from aiohttp import *
 from helpers import *
-from pyshortner import *
+from pyshorteners import *
 logging.config.fileConfig('logging.conf')
 logging.getLogger().setLevel(logging.INFO)
 import os
